@@ -1,9 +1,15 @@
+import os
 import mojito
 import pprint
 import keys
 import pandas as pd
+import logging, logging.config
 
-pd.set_option('display.max_rows', None)
+if not os.path.exists("./logs/"):
+    os.makedirs("./logs/")
+
+logging.config.fileConfig("./logging.conf", disable_existing_loggers=False)
+logger = logging.getLogger('stock_logger')
 
 broker = mojito.KoreaInvestment(
     api_key=keys.key, 
@@ -29,7 +35,7 @@ def get_symbol_daily_data(since:str="", excel_output:bool=False, symbol:str="", 
     """
     
     if symbol == "":
-        print(f"종목 코드를 넣어주세요.")
+        logger.error(f"종목 코드를 넣어주세요.")
         return
     
     if pidaq == "kospi":
@@ -38,7 +44,7 @@ def get_symbol_daily_data(since:str="", excel_output:bool=False, symbol:str="", 
         symbols = kosdaq
     
     if not (symbols['단축코드'] == symbol).any():
-        print(f"{pidaq}에 존재하지않는 종목 코드입니다.")
+        logger.error(f"{pidaq}에 존재하지않는 종목 코드입니다.")
         return
         
     daily = broker.fetch_ohlcv(symbol=symbol, timeframe=timeframe, adj_price=True, since=since)
@@ -55,5 +61,4 @@ def get_symbol_daily_data(since:str="", excel_output:bool=False, symbol:str="", 
     return df
 
 a = get_symbol_daily_data(symbol="000060")
-
-# 조현상 바보
+logger.info(f"{a}")
