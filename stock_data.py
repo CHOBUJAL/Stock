@@ -55,3 +55,5 @@ def get_symbol_daily_data(since:str="", excel_output:bool=False, symbol:str="", 
     return df
 
 a = get_symbol_daily_data(symbol="000060")
+
+# 조현상 바보
