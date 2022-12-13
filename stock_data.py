@@ -12,8 +12,8 @@ logging.config.fileConfig("./logging.conf", disable_existing_loggers=False)
 logger = logging.getLogger('stock_logger')
 
 broker = mojito.KoreaInvestment(
-    api_key=keys.key, 
-    api_secret=keys.secret,
+    api_key=keys.api_key, 
+    api_secret=keys.api_secret,
     acc_no=keys.acc_no,
 )
 
