@@ -96,7 +96,7 @@ class KrInvest:
             timeframe (str): D:일봉, W:주봉, M:월봉 (Defaults : "D")
             
         Returns:
-            DataFrame
+            DataFrame(since ~ today)
         """
         try:
             if symbol == "":
@@ -108,7 +108,13 @@ class KrInvest:
             for day in daily:
                 total_data += day.json()['output2']
                 
-            return pd.DataFrame(total_data)
+            df = pd.DataFrame(total_data)
+            df['stck_bsop_date'] = pd.to_datetime(df['stck_bsop_date'])
+            df.sort_values('stck_bsop_date', ascending=True, inplace=True)
+            df.reset_index(inplace=True)
+            df.drop(['index'], axis=1, inplace=True)
+                
+            return df
         
         except Exception as e:
             raise Exception(f"GetSymbolDailyData Error \n{e}")
