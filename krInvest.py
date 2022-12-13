@@ -118,3 +118,14 @@ class KrInvest:
         
         except Exception as e:
             raise Exception(f"GetSymbolDailyData Error \n{e}")
+        
+        
+    def getMovingAverage(self, baseData=""):
+        
+        try:
+            type_checking_df = pd.DataFrame()
+            if type(type_checking_df) != type(baseData):
+                raise Exception(f"BaseData Type must be Pandas DataFrame")
+            
+        except Exception as e:
+            raise Exception(e)
