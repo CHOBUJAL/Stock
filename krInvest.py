@@ -106,14 +106,16 @@ class KrInvest:
             
             total_data = list()
             for day in daily:
-                total_data += day.json()['output2']
+                for data in day.json()['output2']:
+                    if len(data) > 0:
+                        total_data.append(data)
                 
             df = pd.DataFrame(total_data)
             df['stck_bsop_date'] = pd.to_datetime(df['stck_bsop_date'])
             df.sort_values('stck_bsop_date', ascending=True, inplace=True)
             df.reset_index(inplace=True)
             df.drop(['index'], axis=1, inplace=True)
-                
+            
             return df
         
         except Exception as e:
